@@ -33,7 +33,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
-    AllPokemon().then((value) => {
+    allPokemon().then((value) => {
           setState(() {
             _data = value;
           })
@@ -66,9 +66,17 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-Future AllPokemon() async {
+Future allPokemon() async {
   final allPokemon = await getAllPokemon();
   final jsonAllPokemon = jsonDecode(allPokemon.body);
   final res = jsonAllPokemon["results"];
+  return res;
+}
+
+Future<String> getJpName(String nom) async {
+  final allPokemon = await getJapaneseName(nom);
+  final json = jsonDecode(allPokemon.body);
+  print(json["names"][0]["name"]);
+  final String res = json["names"][0]["name"].toString();
   return res;
 }
