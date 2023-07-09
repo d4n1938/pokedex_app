@@ -41,25 +41,25 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
   }
 
+  List<Widget> _getItems() {
+    final List<Widget> todoWidgets = <Widget>[];
+    for (dynamic list in _data) {
+      todoWidgets.add(Container(
+          child: ColumnCell(
+        data: list,
+      )));
+    }
+    return todoWidgets;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
       body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            // mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const SizedBox(
-                height: 30,
-              ),
-              if (_data != "")
-                for (dynamic list in _data)
-                  ColumnCell(
-                    data: list,
-                  )
-            ],
-          ),
+        child: ListView(
+          // mainAxisAlignment: MainAxisAlignment.center,
+          children: _getItems(),
         ),
       ),
     );
