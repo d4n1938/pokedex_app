@@ -29,11 +29,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  dynamic _data = "";
+  dynamic _data;
+  dynamic req;
 
   @override
   void initState() {
-    allPokemon().then((value) => {
+    req = allPokemon().then((value) => {
           setState(() {
             _data = value;
           })
@@ -44,10 +45,9 @@ class _MyHomePageState extends State<MyHomePage> {
   List<Widget> _getItems() {
     final List<Widget> todoWidgets = <Widget>[];
     for (dynamic list in _data) {
-      todoWidgets.add(Container(
-          child: ColumnCell(
+      todoWidgets.add(ColumnCell(
         data: list,
-      )));
+      ));
     }
     return todoWidgets;
   }
@@ -57,10 +57,18 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(),
       body: Center(
-        child: ListView(
-          // mainAxisAlignment: MainAxisAlignment.center,
-          children: _getItems(),
-        ),
+        child: FutureBuilder(
+            future: req,
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.hasData) {
+                return ListView(
+                  // mainAxisAlignment: MainAxisAlignment.center,
+                  children: _getItems(),
+                );
+              } else {
+                return Image.asset("images/splash.png");
+              }
+            }),
       ),
     );
   }
