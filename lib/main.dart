@@ -55,7 +55,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
       body: Center(
         child: FutureBuilder(
             future: req,
@@ -84,7 +83,7 @@ Future allPokemon() async {
 Future<String> getJpName(String nom) async {
   final allPokemon = await getJapaneseName(nom);
   final json = jsonDecode(allPokemon.body);
-  print(json["names"][0]["name"]);
+  debugPrint(json["names"][0]["name"]);
   final String res = json["names"][0]["name"].toString();
   return res;
 }
