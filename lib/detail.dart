@@ -45,6 +45,35 @@ class _DetailState extends State<Detail> {
           Text(data)
         ],
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: const Color.fromARGB(255, 255, 0, 0),
+        child: Container(
+          color: const Color.fromARGB(255, 255, 0, 0),
+          child: const Icon(Icons.arrow_back_ios_new),
+        ),
+        onPressed: () {
+          Navigator.of(context).pop();
+          // Add your onPressed code here!
+        },
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: const Color.fromARGB(255, 255, 0, 0),
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+              icon: Icon(
+                Icons.home,
+                color: Color.fromARGB(255, 255, 0, 0),
+              ),
+              label: ''),
+          BottomNavigationBarItem(
+              icon: Icon(
+                Icons.home,
+                color: Color.fromARGB(255, 255, 0, 0),
+              ),
+              label: ''),
+        ],
+      ),
     );
   }
 }
