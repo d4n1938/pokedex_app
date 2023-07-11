@@ -25,10 +25,10 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-  
-  assets:
-    - assets/images/splash.png
 
+  assets:
+    - assets/images/
+    - assets/icons/
 
 # 起動画面設定
 # 生成用コマンド

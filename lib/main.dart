@@ -15,8 +15,12 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: MyHomePage(),
+    return MaterialApp(
+      theme: ThemeData(
+        brightness: Brightness.dark,
+        primaryColor: const Color.fromARGB(255, 255, 0, 0),
+      ),
+      home: const MyHomePage(),
     );
   }
 }
@@ -65,7 +69,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   children: _getItems(),
                 );
               } else {
-                return Image.asset("images/splash.png");
+                return Image.asset(
+                  "assets/icons/splash.png",
+                  width: 200,
+                );
               }
             }),
       ),
@@ -94,7 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
           elevation: 0,
           backgroundColor: Colors.transparent,
           child: Image.asset(
-            "images/splash.png",
+            "assets/images/splash.png",
           ),
           onPressed: () {},
         ),
