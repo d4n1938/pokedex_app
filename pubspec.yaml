@@ -24,8 +24,11 @@ dev_dependencies:
   flutter_native_splash: ^2.1.3+1
 
 flutter:
-
   uses-material-design: true
+  
+  assets:
+    - assets/images/splash.png
+
 
 # 起動画面設定
 # 生成用コマンド

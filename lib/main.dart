@@ -94,7 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
           elevation: 0,
           backgroundColor: Colors.transparent,
           child: Image.asset(
-            "/images/splash.png",
+            "images/splash.png",
           ),
           onPressed: () {},
         ),
