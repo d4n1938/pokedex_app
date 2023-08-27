@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 
 import 'api/api.dart';
+import 'main.dart';
 
 class Detail extends StatefulWidget {
   final String id;
@@ -14,6 +15,7 @@ class Detail extends StatefulWidget {
 
 class _DetailState extends State<Detail> {
   String data = "";
+  String name = "";
 
   @override
   initState() {
@@ -23,6 +25,9 @@ class _DetailState extends State<Detail> {
                   [30]["flavor_text"]
               .toString())
         });
+    getJpName(widget.id).then(
+      (value) => setState(() => name = value),
+    );
   }
 
   @override
@@ -41,6 +46,10 @@ class _DetailState extends State<Detail> {
                 ),
               ),
             ),
+          ),
+          Text("No.${widget.id}   $name", style: const TextStyle(fontSize: 30)),
+          const SizedBox(
+            height: 20,
           ),
           Text(data)
         ],
