@@ -15,7 +15,10 @@ class Detail extends StatefulWidget {
 }
 
 class _DetailState extends State<Detail> {
-  String data = "";
+  List<dynamic> data = [
+    {"flavor_text": ""}
+  ];
+  int version = 0;
 
   @override
   initState() {
@@ -27,27 +30,63 @@ class _DetailState extends State<Detail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Center(
-            child: SizedBox(
-              width: 400,
-              child: Hero(
-                tag: "pokemon${widget.id}",
-                child: Image.network(
-                  "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${widget.id}.png",
-                  fit: BoxFit.contain,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Center(
+              child: SizedBox(
+                width: 400,
+                child: Hero(
+                  tag: "pokemon${widget.id}",
+                  child: Image.network(
+                    "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${widget.id}.png",
+                    fit: BoxFit.contain,
+                  ),
                 ),
               ),
             ),
-          ),
-          Text("No.${widget.id}   ${widget.name}",
-              style: const TextStyle(fontSize: 30)),
-          const SizedBox(
-            height: 20,
-          ),
-          Text(data)
-        ],
+            Text("No.${widget.id}   ${widget.name}",
+                style: const TextStyle(fontSize: 30)),
+            const SizedBox(
+              height: 20,
+            ),
+            Text(data[version]["flavor_text"]),
+            const SizedBox(
+              height: 20,
+            ),
+            Wrap(
+              alignment: WrapAlignment.center,
+              children: [
+                for (int i = 0; i < data.length; i++)
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SizedBox(
+                      height: 47,
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(47),
+                            ),
+                            side: const BorderSide(
+                              color: Color.fromARGB(255, 255, 0, 0), //色
+                              width: 2.5, //太さ
+                            ),
+                            backgroundColor: version == i
+                                ? const Color(0xffFF6C6C)
+                                : Colors.transparent,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              version = i;
+                            });
+                          },
+                          child: Text(data[i]["version"]["name"])),
+                    ),
+                  ),
+              ],
+            )
+          ],
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
       floatingActionButton: FloatingActionButton(
@@ -82,7 +121,7 @@ class _DetailState extends State<Detail> {
   }
 }
 
-Future<String> getFlavorText(dynamic json) async {
+Future<List<dynamic>> getFlavorText(dynamic json) async {
   dynamic flavors = jsonDecode(json.body)["flavor_text_entries"];
   List<dynamic> jpTexts = [];
   for (dynamic flavor in flavors) {
@@ -91,6 +130,6 @@ Future<String> getFlavorText(dynamic json) async {
       jpTexts.add(flavor);
     }
   }
-  String data = jpTexts[0]["flavor_text"].toString();
+  List<dynamic> data = jpTexts;
   return data;
 }
