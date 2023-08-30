@@ -118,7 +118,7 @@ Future allPokemon() async {
 }
 
 Future<String> getJpName(String nom) async {
-  final allPokemon = await getJapaneseName(nom);
+  final allPokemon = await getPokemonDetail(nom);
   final json = jsonDecode(allPokemon.body);
   debugPrint(json["names"][0]["name"]);
   final String res = json["names"][0]["name"].toString();
