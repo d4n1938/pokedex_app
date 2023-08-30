@@ -3,11 +3,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 
 import 'api/api.dart';
-import 'main.dart';
 
 class Detail extends StatefulWidget {
   final String id;
-  const Detail({Key? key, required this.id}) : super(key: key);
+  final String name;
+  const Detail({Key? key, required this.id, required this.name})
+      : super(key: key);
 
   @override
   State<Detail> createState() => _DetailState();
@@ -15,19 +16,12 @@ class Detail extends StatefulWidget {
 
 class _DetailState extends State<Detail> {
   String data = "";
-  String name = "";
 
   @override
   initState() {
     super.initState();
-    getJapaneseName(widget.id).then((value) => {
-          setState(() => data = jsonDecode(value.body)["flavor_text_entries"]
-                  [30]["flavor_text"]
-              .toString())
-        });
-    getJpName(widget.id).then(
-      (value) => setState(() => name = value),
-    );
+    getPokemonDetail(widget.id).then((value) =>
+        getFlavorText(value).then((value) => setState(() => data = value)));
   }
 
   @override
@@ -41,13 +35,14 @@ class _DetailState extends State<Detail> {
               child: Hero(
                 tag: "pokemon${widget.id}",
                 child: Image.network(
-                  "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${widget.id}.png",
+                  "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${widget.id}.png",
                   fit: BoxFit.contain,
                 ),
               ),
             ),
           ),
-          Text("No.${widget.id}   $name", style: const TextStyle(fontSize: 30)),
+          Text("No.${widget.id}   ${widget.name}",
+              style: const TextStyle(fontSize: 30)),
           const SizedBox(
             height: 20,
           ),
@@ -85,4 +80,17 @@ class _DetailState extends State<Detail> {
       ),
     );
   }
+}
+
+Future<String> getFlavorText(dynamic json) async {
+  dynamic flavors = jsonDecode(json.body)["flavor_text_entries"];
+  List<dynamic> jpTexts = [];
+  for (dynamic flavor in flavors) {
+    if (flavor["language"]["name"] == "ja") {
+      debugPrint(flavor["flavor_text"]);
+      jpTexts.add(flavor);
+    }
+  }
+  String data = jpTexts[0]["flavor_text"].toString();
+  return data;
 }

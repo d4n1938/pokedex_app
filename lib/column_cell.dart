@@ -38,7 +38,7 @@ class _ColumnCellState extends State<ColumnCell> {
         child: InkWell(
           onTap: () {
             Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-              return Detail(id: result);
+              return Detail(id: result, name: name);
             }));
           },
           child: Row(
@@ -47,14 +47,20 @@ class _ColumnCellState extends State<ColumnCell> {
                 width: 10,
               ),
               Text(result.toString()),
+              const SizedBox(
+                width: 10,
+              ),
               SizedBox(
-                width: 100,
-                height: 100,
+                width: 80,
+                height: 80,
                 child: Hero(
                   tag: "pokemon$result",
                   child: Image.network(
-                      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$result.png"),
+                      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/$result.png"),
                 ),
+              ),
+              const SizedBox(
+                width: 10,
               ),
               Text(name),
             ],
