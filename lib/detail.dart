@@ -15,9 +15,7 @@ class Detail extends StatefulWidget {
 }
 
 class _DetailState extends State<Detail> {
-  List<dynamic> data = [
-    {"flavor_text": ""}
-  ];
+  late List<dynamic> data = [];
   int version = 0;
 
   @override
@@ -50,40 +48,45 @@ class _DetailState extends State<Detail> {
             const SizedBox(
               height: 20,
             ),
-            Text(data[version]["flavor_text"]),
+            data.isEmpty ? const Text("") : Text(data[version]["flavor_text"]),
             const SizedBox(
               height: 20,
             ),
             Wrap(
               alignment: WrapAlignment.center,
-              children: [
-                for (int i = 0; i < data.length; i++)
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SizedBox(
-                      height: 47,
-                      child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(47),
+              children: data.isEmpty
+                  ? [Container()]
+                  : List.generate(data.length, (i) {
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SizedBox(
+                          height: 47,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(47),
+                              ),
+                              side: const BorderSide(
+                                color: Color.fromARGB(255, 255, 0, 0), //色
+                                width: 2.5, //太さ
+                              ),
+                              backgroundColor: version == i
+                                  ? const Color(0xffFF6C6C)
+                                  : Colors.transparent,
                             ),
-                            side: const BorderSide(
-                              color: Color.fromARGB(255, 255, 0, 0), //色
-                              width: 2.5, //太さ
-                            ),
-                            backgroundColor: version == i
-                                ? const Color(0xffFF6C6C)
-                                : Colors.transparent,
+                            onPressed: () {
+                              setState(() {
+                                version = i;
+                              });
+                            },
+                            child: Text(data[i]["version"]["name"]),
                           ),
-                          onPressed: () {
-                            setState(() {
-                              version = i;
-                            });
-                          },
-                          child: Text(data[i]["version"]["name"])),
-                    ),
-                  ),
-              ],
+                        ),
+                      );
+                    }),
+            ),
+            const SizedBox(
+              height: 70,
             )
           ],
         ),
@@ -93,7 +96,8 @@ class _DetailState extends State<Detail> {
         backgroundColor: const Color.fromARGB(255, 255, 0, 0),
         child: Container(
           color: const Color.fromARGB(255, 255, 0, 0),
-          child: const Icon(Icons.arrow_back_ios_new),
+          child: const Icon(Icons.arrow_back_ios_new,
+              color: Color.fromARGB(255, 255, 255, 255)),
         ),
         onPressed: () {
           Navigator.of(context).pop();
