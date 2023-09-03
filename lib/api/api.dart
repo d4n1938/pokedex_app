@@ -8,3 +8,7 @@ Future getAllPokemon() async {
 Future getPokemonDetail(String nom) async {
   return http.get(Uri.parse('https://pokeapi.co/api/v2/pokemon-species/$nom/'));
 }
+
+Future getPokemonInfo(String nom) async {
+  return http.get(Uri.parse('https://pokeapi.co/api/v2/pokemon/$nom/'));
+}
