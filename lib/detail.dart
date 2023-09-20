@@ -16,6 +16,7 @@ class Detail extends StatefulWidget {
 
 class _DetailState extends State<Detail> {
   late List<dynamic> data = [];
+  late List<dynamic> types = [];
   int version = 0;
 
   @override
@@ -23,6 +24,8 @@ class _DetailState extends State<Detail> {
     super.initState();
     getPokemonDetail(widget.id).then((value) =>
         getFlavorText(value).then((value) => setState(() => data = value)));
+    getPokemonInfo(widget.id).then((value) =>
+        getPokemonTypes(value).then((value) => setState(() => types = value)));
   }
 
   @override
@@ -45,6 +48,36 @@ class _DetailState extends State<Detail> {
             ),
             Text("No.${widget.id}   ${widget.name}",
                 style: const TextStyle(fontSize: 30)),
+            types.isNotEmpty
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Wrap(
+                          alignment: WrapAlignment.center,
+                          children: data.isEmpty
+                              ? [Container()]
+                              : List.generate(types.length, (i) {
+                                  return Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        border: Border.all(color: Colors.red),
+                                        color: const Color.fromARGB(
+                                            255, 255, 0, 0),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(types[i]["type"]["name"],
+                                            style:
+                                                const TextStyle(fontSize: 30)),
+                                      ),
+                                    ),
+                                  );
+                                })),
+                    ],
+                  )
+                : Container(),
             const SizedBox(
               height: 20,
             ),
@@ -136,4 +169,9 @@ Future<List<dynamic>> getFlavorText(dynamic json) async {
   }
   List<dynamic> data = jpTexts;
   return data;
+}
+
+Future<List<dynamic>> getPokemonTypes(dynamic json) async {
+  List<dynamic> types = jsonDecode(json.body)["types"] as List<dynamic>;
+  return types;
 }
