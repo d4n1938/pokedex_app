@@ -82,7 +82,8 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           Positioned(
             bottom: 0,
-            child: Container(
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 150),
               decoration: BoxDecoration(
                   color: const Color.fromARGB(255, 255, 0, 0),
                   borderRadius: _bottomBarHeight != 50
@@ -125,9 +126,10 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
           ),
-          Positioned(
+          AnimatedPositioned(
             bottom: _bottomBarHeight - 50,
             right: MediaQuery.of(context).size.width / 2 - 50,
+            duration: const Duration(milliseconds: 150),
             child: SizedBox(
               width: 100,
               height: 100,
