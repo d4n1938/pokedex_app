@@ -80,6 +80,18 @@ class _MyHomePageState extends State<MyHomePage> {
                   }
                 }),
           ),
+          _bottomBarHeight == 50
+              ? Container()
+              : GestureDetector(
+                  onTap: () => setState(() {
+                    _bottomBarHeight = 50;
+                  }),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
+                    color: Colors.black.withOpacity(0.5),
+                  ),
+                ),
           Positioned(
             bottom: 0,
             child: AnimatedContainer(
@@ -120,6 +132,45 @@ class _MyHomePageState extends State<MyHomePage> {
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(25),
                               borderSide: BorderSide.none)),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 20.0, left: 20.0),
+                    child: Column(
+                      children: [
+                        Container(
+                          height: 5,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(color: Colors.red),
+                            color: const Color.fromARGB(255, 255, 255, 255),
+                          ),
+                        ),
+                        ExpansionTile(
+                          onExpansionChanged: (bool changed) {
+                            //開いた時の処理を書ける
+                          },
+                          collapsedIconColor: Colors.white,
+                          iconColor: Colors.white,
+                          title: const Text(''),
+                          children: const <Widget>[
+                            ListTile(
+                              title: Text('data'),
+                            ),
+                            ListTile(
+                              title: Text('data'),
+                            ),
+                          ],
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(color: Colors.red),
+                            color: const Color.fromARGB(255, 255, 255, 255),
+                          ),
+                          height: 5,
+                        ),
+                      ],
                     ),
                   ),
                 ]),
