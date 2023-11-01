@@ -94,86 +94,105 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
           Positioned(
             bottom: 0,
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 150),
-              decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 255, 0, 0),
-                  borderRadius: _bottomBarHeight != 50
-                      ? const BorderRadius.only(
-                          topLeft: Radius.circular(30),
-                          topRight: Radius.circular(30))
-                      : BorderRadius.zero),
-              width: MediaQuery.of(context).size.width,
-              height: _bottomBarHeight,
-              child: SingleChildScrollView(
-                physics: const NeverScrollableScrollPhysics(),
-                child: Column(children: [
-                  const SizedBox(
-                    height: 50,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: TextField(
-                      cursorColor: Colors.red,
-                      style: const TextStyle(
-                          fontSize: 20,
-                          height: 1,
-                          color: Color.fromARGB(255, 24, 24, 24)),
-                      decoration: InputDecoration(
-                          suffixIcon: const Padding(
-                            padding: EdgeInsets.only(right: 15.0),
-                            child: Icon(Icons.search,
-                                size: 30,
-                                color: Color.fromARGB(255, 255, 0, 0)),
-                          ),
-                          contentPadding: const EdgeInsets.all(20),
-                          fillColor: Colors.white,
-                          filled: true,
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(25),
-                              borderSide: BorderSide.none)),
+            child: GestureDetector(
+              onVerticalDragUpdate: (details) {
+                setState(() {
+                  if (_bottomBarHeight - details.delta.dy <= 100) {
+                    _bottomBarHeight = 50;
+                  }
+                  if (details.delta.dy > 30) {
+                    _bottomBarHeight = 50;
+                  } else if (_bottomBarHeight - details.delta.dy > 600) {
+                    _bottomBarHeight = 600;
+                  } else if (_bottomBarHeight - details.delta.dy < 100) {
+                    _bottomBarHeight = 50;
+                  } else {
+                    _bottomBarHeight += -details.delta.dy;
+                  }
+                });
+                debugPrint(details.delta.dy.toString());
+              },
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 150),
+                decoration: BoxDecoration(
+                    color: const Color.fromARGB(255, 255, 0, 0),
+                    borderRadius: _bottomBarHeight != 50
+                        ? const BorderRadius.only(
+                            topLeft: Radius.circular(30),
+                            topRight: Radius.circular(30))
+                        : BorderRadius.zero),
+                width: MediaQuery.of(context).size.width,
+                height: _bottomBarHeight,
+                child: SingleChildScrollView(
+                  physics: const NeverScrollableScrollPhysics(),
+                  child: Column(children: [
+                    const SizedBox(
+                      height: 50,
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 20.0, left: 20.0),
-                    child: Column(
-                      children: [
-                        Container(
-                          height: 5,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(color: Colors.red),
-                            color: const Color.fromARGB(255, 255, 255, 255),
-                          ),
-                        ),
-                        ExpansionTile(
-                          onExpansionChanged: (bool changed) {
-                            //開いた時の処理を書ける
-                          },
-                          collapsedIconColor: Colors.white,
-                          iconColor: Colors.white,
-                          title: const Text(''),
-                          children: const <Widget>[
-                            ListTile(
-                              title: Text('data'),
+                    Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: TextField(
+                        cursorColor: Colors.red,
+                        style: const TextStyle(
+                            fontSize: 20,
+                            height: 1,
+                            color: Color.fromARGB(255, 24, 24, 24)),
+                        decoration: InputDecoration(
+                            suffixIcon: const Padding(
+                              padding: EdgeInsets.only(right: 15.0),
+                              child: Icon(Icons.search,
+                                  size: 30,
+                                  color: Color.fromARGB(255, 255, 0, 0)),
                             ),
-                            ListTile(
-                              title: Text('data'),
-                            ),
-                          ],
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(color: Colors.red),
-                            color: const Color.fromARGB(255, 255, 255, 255),
-                          ),
-                          height: 5,
-                        ),
-                      ],
+                            contentPadding: const EdgeInsets.all(20),
+                            fillColor: Colors.white,
+                            filled: true,
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(25),
+                                borderSide: BorderSide.none)),
+                      ),
                     ),
-                  ),
-                ]),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 20.0, left: 20.0),
+                      child: Column(
+                        children: [
+                          Container(
+                            height: 5,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(color: Colors.red),
+                              color: const Color.fromARGB(255, 255, 255, 255),
+                            ),
+                          ),
+                          ExpansionTile(
+                            onExpansionChanged: (bool changed) {
+                              //開いた時の処理を書ける
+                            },
+                            collapsedIconColor: Colors.white,
+                            iconColor: Colors.white,
+                            title: const Text(''),
+                            children: const <Widget>[
+                              ListTile(
+                                title: Text('data'),
+                              ),
+                              ListTile(
+                                title: Text('data'),
+                              ),
+                            ],
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(color: Colors.red),
+                              color: const Color.fromARGB(255, 255, 255, 255),
+                            ),
+                            height: 5,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ]),
+                ),
               ),
             ),
           ),
